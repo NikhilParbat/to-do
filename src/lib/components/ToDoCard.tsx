@@ -21,7 +21,7 @@ const ToDoCard: FC<ToDoCardProps> = ({ todo }) => {
           {todo.status}
         </span>
       </div>
-      <p className="text-gray-500 text-sm">Task ID: {todo.id}</p>
+      <p className="text-gray-500 text-sm">Description: {todo.description}</p>
     </div>
   );
 };
