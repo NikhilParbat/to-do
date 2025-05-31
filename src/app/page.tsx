@@ -1,53 +1,26 @@
 "use client";
 import NewToDoForm from "@/lib/components/NewToDoForm";
 import ToDoCard from "@/lib/components/ToDoCard";
-import { todos } from "@/lib/data/todo";
-import { useState } from "react";
+import ToDoList from "@/lib/components/ToDoList";
+import useToDo from "@/lib/hooks/useToDo";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [todoList, setTodoList] = useState<Todo[]>(todos);
-  const [toDoFormData, setToDoFormData] = useState<Todo>({
-    id: 0,
-    title: "",
-    description: "",
-    status: "In-progress",
-  });
+  const { getTodos, todos } = useToDo();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setToDoFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const onFormSubmit = () => {
-    const newTodo = { ...toDoFormData, id: todoList.length + 1 };
-    setTodoList((prev) => [...prev, newTodo]);
-    setToDoFormData({
-      id: 0,
-      title: "",
-      description: "",
-      status: "In-progress",
-    });
-  };
+  useEffect(() => {
+    getTodos();
+  }, []);
 
   return (
-    <div className="min-h-dvh flex flex-col justify-center items-center">
-      <NewToDoForm
-        formData={toDoFormData}
-        onInputChange={handleChange}
-        onFormSubmit={onFormSubmit}
-      />
-      <h1 className="text-blue-700 text-2xl text-center font-semibold">
-        To-Do List
+    <div className="min-h-dvh">
+      <h1 className="text-center my-8 text-blue-600 font-bold text-3xl">
+        {" "}
+        To-Do Application
       </h1>
-      <div className="flex flex-col items-start">
-        {todoList.map((todo) => (
-          <ToDoCard todo={todo} key={todo.id} />
-        ))}
+      <div className=" flex justify-between items-start p-4">
+        <ToDoList todos={todos} />
+        <NewToDoForm getTodos={getTodos} />
       </div>
     </div>
   );

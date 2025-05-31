@@ -6,3 +6,8 @@ interface Todo {
 }
 
 type Status  = "Done" | "In-progress"
+type UseTodoState = {
+    todos: Todo[];
+    getTodos: VoidFunction;
+    addTodo: (todo: Todo) => void;
+}
